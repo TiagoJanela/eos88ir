@@ -1,33 +1,38 @@
-Identifier: eos0aaa
-Slug: template-model
+Identifier: eos88ir
+Slug: chemical-dice-embeddings
 Status: In progress
-Title: This is a template model
-Description: |
-  This is a description of the template model.
-  You can use multiple lines in this description.
+Title: Chemical Dice Molecular Embeddings
+Description: Embeds a molecule as an 8192-dimensional vector computed from its 
+  SMILES alone. The authors fused six views of each molecule (Mordred 
+  descriptors, GROVER graph features, ImageMol images, Signaturizer bioactivity 
+  signatures, MOPAC quantum properties and ChemBERTa language features) into a 
+  teacher embedding, then trained a Mamba state-space model on about 2.2 million
+  ChEMBL molecules to predict it, so only the SMILES is needed. SMILES longer 
+  than 128 tokens are truncated.
 Deployment:
   - Local
   - Online
 Source: Local, Online
 Source Type: Internal, Replicated, External
 Task: Annotation, Representation, Sampling
-Subtask: Property calculation or prediction, Activity prediction, Featurization, Projection, Similarity search, Generation
-Input: 
+Subtask: Property calculation or prediction, Activity prediction, Featurization,
+  Projection, Similarity search, Generation
+Input:
   - Compound
 Input Dimension: 1
-Output: 
+Output:
   - Value
   - Score
   - Compound
   - Text
 Output Dimension: 1
 Output Consistency: Fixed, Variable
-Interpretation: |
-  The output of this template model should be interpreted like this.
+Interpretation: The output of this template model should be interpreted like 
+  this.
 Tag:
-  - Tag 1
-  - Tag 2
-  - Tag 3
+  - Embedding
+  - Chemical language model
+  - ChEMBL
 Biomedical Area:
   - Biomedical Area 1
   - Biomedical Area 2
@@ -36,6 +41,7 @@ Target Organism:
   - Target Organism 2
 Publication Type: Peer reviewed, Preprint, Other
 Publication Year: 2026
-Publication: https://example.com
-Source Code: https://example.com
-License: GPL-3.0-or-later, MIT, Apache-2.0...
+Publication: https://doi.org/10.1038/s41467-026-77700-z
+Source Code: https://github.com/the-ahuja-lab/ChemicalDice
+License: MIT
+Contributor: TiagoJanela
