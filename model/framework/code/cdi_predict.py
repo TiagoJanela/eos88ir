@@ -170,6 +170,7 @@ def predict(smiles_list):
     model, tokenizer = load_model()
     out = np.full((len(smiles_list), EMB_DIM), np.nan, dtype=np.float32)
     n_invalid = 0
+    n_failed = 0
     n_truncated = 0
     for i, smiles in enumerate(smiles_list):
         # One bad row must never take down the batch, so any failure on a single
@@ -185,13 +186,16 @@ def predict(smiles_list):
             out[i] = embed_one(canonical, model, tokenizer)
         except Exception:
             out[i] = np.nan
-            n_invalid += 1
+            n_failed += 1
     if n_invalid:
         print("CDI: %d input(s) could not be parsed as molecules; their rows are NaN" % n_invalid, file=sys.stderr)
+    if n_failed:
+        print("CDI: %d input(s) failed during processing; their rows are NaN" % n_failed, file=sys.stderr)
     if n_truncated:
         print(
-            "CDI: %d SMILES exceed %d tokens and were truncated to their first %d, "
-            "as in the original model" % (n_truncated, MAX_LENGTH, MAX_LENGTH - 2),
+            "CDI: %d SMILES have more than %d tokens and were truncated to their first %d "
+            "(the %d-token limit includes <bos> and <eos>), as in the original model"
+            % (n_truncated, MAX_LENGTH - 2, MAX_LENGTH - 2, MAX_LENGTH),
             file=sys.stderr,
         )
     return out
